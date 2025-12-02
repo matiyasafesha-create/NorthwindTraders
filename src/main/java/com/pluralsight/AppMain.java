@@ -4,24 +4,34 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class AppMain {
-    public static final Scanner scanner = new Scanner(System.in);
+//    public static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) throws SQLException {
 
-        String query = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock FROM Products";
+
         // ProductID
 //Product Name
 //Unit Price
 //Units In Stock
 
-        try{
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/northwind",
-                    "root",
-                    "yearup"
-            );
+        String url = "jdbc:mysql://localhost:3306/northwind";
+        String user = args[0];
+        String passWord = args[1];
 
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        String query = "SELECT * FROM Products";
+        ResultSet resultSet = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+
+        try{
+
+            // Establishing a connection
+            connection = DriverManager.getConnection(url,user,passWord);
+            preparedStatement = connection.prepareStatement(query);
+
+
+
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
                 int id = resultSet.getInt("ProductID");
